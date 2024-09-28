@@ -28,5 +28,5 @@ public class PatientDto {
 
     private String email;
 
-    private MedicalHistory medicalHistory;
+    private MedicalHistoryDto medicalHistory;
 }

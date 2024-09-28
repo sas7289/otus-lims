@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "patient")
+@Table(name = "patients")
 public class Patient {
 
     @Id
