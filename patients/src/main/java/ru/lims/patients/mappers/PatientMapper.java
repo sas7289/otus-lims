@@ -5,7 +5,7 @@ import org.mapstruct.factory.Mappers;
 import ru.lims.patients.dto.PatientDto;
 import ru.lims.patients.models.Patient;
 
-@Mapper
+@Mapper(uses = {MedicalHistoryMapper.class, ConsultationMapper.class})
 public interface PatientMapper {
 
     PatientMapper INSTANCE = Mappers.getMapper(PatientMapper.class);
