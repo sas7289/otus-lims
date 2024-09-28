@@ -1,4 +1,4 @@
-package ru.lims.patients.models;
+package ru.lims.patients.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

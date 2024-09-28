@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.lims.patients.dto.PatientDto;
 import ru.lims.patients.exception.ObjectNotFoundException;
-import ru.lims.patients.mappers.PatientMapper;
-import ru.lims.patients.repositories.PatientRepository;
+import ru.lims.patients.mapper.PatientMapper;
+import ru.lims.patients.repository.PatientRepository;
 
 @Service
 public class PatientService {

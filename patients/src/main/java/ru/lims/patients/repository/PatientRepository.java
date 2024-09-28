@@ -1,8 +1,10 @@
-package ru.lims.patients.repositories;
+package ru.lims.patients.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ru.lims.patients.models.Patient;
+import org.springframework.stereotype.Repository;
+import ru.lims.patients.model.Patient;
 
+@Repository
 public interface PatientRepository extends JpaRepository<Patient, Long> {
 
 }

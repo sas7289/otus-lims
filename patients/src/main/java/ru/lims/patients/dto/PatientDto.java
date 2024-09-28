@@ -4,7 +4,6 @@ package ru.lims.patients.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.lims.patients.models.MedicalHistory;
 
 @AllArgsConstructor
 @NoArgsConstructor

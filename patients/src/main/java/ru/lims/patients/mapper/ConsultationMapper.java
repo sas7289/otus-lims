@@ -1,9 +1,9 @@
-package ru.lims.patients.mappers;
+package ru.lims.patients.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import ru.lims.patients.dto.ConsultationDto;
-import ru.lims.patients.models.Consultation;
+import ru.lims.patients.model.Consultation;
 
 @Mapper
 public interface ConsultationMapper {

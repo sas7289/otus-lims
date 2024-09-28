@@ -1,4 +1,4 @@
-package ru.lims.patients.controllers;
+package ru.lims.patients.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
