@@ -14,11 +14,14 @@ public class PatientService {
     @Autowired
     private PatientRepository patientRepository;
 
+    @Autowired
+    private PatientMapper patientMapper;
+
 
     @Transactional
     public PatientDto findById(long id) {
         return patientRepository.findById(id)
-            .map(PatientMapper.INSTANCE::toDto)
+            .map(patientMapper::toDto)
             .orElseThrow(() -> new ObjectNotFoundException("Patient not found by ID: " + id));
     }
 }
