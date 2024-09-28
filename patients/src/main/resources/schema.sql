@@ -2,9 +2,9 @@ create table patients
 (
     id            bigserial,
     name          varchar(255),
-    lastName      varchar(255),
-    middleName    varchar(255),
-    gender        varchar(255),
+    last_name      varchar(255),
+    middle_name    varchar(255),
+    gender        varchar(255) check (patients.gender in ('male', 'female')),
     date_of_birth datetime,
     phone_number  varchar(255),
     address       varchar(255),
