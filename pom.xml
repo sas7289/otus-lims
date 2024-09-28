@@ -15,6 +15,7 @@
   </properties>
   <modules>
     <module>patients</module>
+    <module>employees</module>
   </modules>
 
 </project>
