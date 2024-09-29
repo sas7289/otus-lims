@@ -16,6 +16,7 @@ public class PatientController {
 
     @GetMapping("/patient/{id}")
     public ResponseEntity<PatientDto> getPatientById(@PathVariable("id") long id) {
-        return ResponseEntity.ok(patientService.findById(id));
+        PatientDto patient = patientService.findById(id);
+        return ResponseEntity.ok(patient);
     }
 }
