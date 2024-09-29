@@ -16,6 +16,7 @@
   <modules>
     <module>patients</module>
     <module>employees</module>
+    <module>tests</module>
   </modules>
 
 </project>
