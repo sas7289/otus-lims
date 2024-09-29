@@ -3,7 +3,7 @@ values ('PatientName1', 'PatientLastName1', 'PatientMiddleName1', 'male', '2000-
         '89998887766', 'Moscow, Kremlin', 'm22@mail.ru'),
        ('PatientName2', 'PatientLastName2', 'PatientMiddleName2', 'male', '2001-09-25 15:30:00',
         '89998887755', 'Moscow, Kremlin', 'm33@mail.ru'),
-       ('PatientName3', 'PatientLastName3', 'PatientMiddleName3', 'male', '2002-09-25 15:30:00',
+       ('PatientName3', 'PatientLastName3', 'PatientMiddleName3', 'female', '2002-09-25 15:30:00',
         '89998887744', 'Moscow, Kremlin', 'm33@mail.ru');
 
 
