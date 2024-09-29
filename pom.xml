@@ -17,6 +17,7 @@
     <module>patients</module>
     <module>employees</module>
     <module>tests</module>
+    <module>doctor-gateway</module>
   </modules>
 
 </project>
