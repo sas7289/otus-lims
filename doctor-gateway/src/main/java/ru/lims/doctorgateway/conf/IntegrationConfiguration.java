@@ -1,5 +1,6 @@
 package ru.lims.doctorgateway.conf;
 
+import java.util.List;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,6 +9,7 @@ import org.springframework.integration.amqp.dsl.Amqp;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.http.dsl.Http;
 import org.springframework.messaging.Message;
+import ru.lims.doctorgateway.dto.AnalysisDto;
 import ru.lims.doctorgateway.dto.Complex;
 import ru.lims.doctorgateway.dto.EmployeeDto;
 import ru.lims.doctorgateway.dto.PatientDto;
@@ -49,6 +51,19 @@ public class IntegrationConfiguration {
                         Complex complex = (Complex) message.getHeaders().get("complex");
                         EmployeeDto employeeDto = (EmployeeDto) message.getPayload();
                         complex.setEmployee(employeeDto);
+                        return complex;
+                    })
+            )
+            .handle(Http.outboundGateway("http://localhost:8083/analysis/patient/{id}")
+                .httpMethod(HttpMethod.GET)
+                .expectedResponseType(List.class)
+                .uriVariable("id", "headers['patientId']"))
+            .enrich(enricherSpec ->
+                enricherSpec.headerFunction("complex",
+                    message -> {
+                        Complex complex = (Complex) message.getHeaders().get("complex");
+                        List<AnalysisDto> analysisDtos = (List<AnalysisDto>) message.getPayload();
+                        complex.setAnalysisDto(analysisDtos);
                         return complex;
                     })
             )
