@@ -14,7 +14,7 @@ import org.springframework.integration.dsl.MessageChannels;
 import org.springframework.integration.http.dsl.Http;
 import org.springframework.messaging.Message;
 import ru.lims.doctorgateway.dto.AnalysisDto;
-import ru.lims.doctorgateway.dto.Complex;
+import ru.lims.doctorgateway.dto.GlobalPatientDto;
 import ru.lims.doctorgateway.dto.EmployeeDto;
 import ru.lims.doctorgateway.dto.PatientDto;
 
@@ -30,8 +30,8 @@ public class IntegrationConfiguration {
                 .requestPayloadType(String.class)
             )
             .enrichHeaders(headerEnricherSpec -> headerEnricherSpec.headerExpression("patientId", "payload"))
-            .enrichHeaders(headerEnricherSpec -> headerEnricherSpec.header("complex", new Complex()))
-            .handle((payload, headers) -> new Complex())
+            .enrichHeaders(headerEnricherSpec -> headerEnricherSpec.header("complex", new GlobalPatientDto()))
+            .handle((payload, headers) -> new GlobalPatientDto())
             .handle(Http.outboundGateway("http://localhost:8081/patient/{id}")
                 .httpMethod(HttpMethod.GET)
                 .expectedResponseType(PatientDto.class)
@@ -39,10 +39,10 @@ public class IntegrationConfiguration {
             .enrich(enricherSpec ->
                 enricherSpec.headerFunction("complex",
                     message -> {
-                        Complex complex = (Complex) message.getHeaders().get("complex");
+                        GlobalPatientDto globalPatientDto = (GlobalPatientDto) message.getHeaders().get("globalPatientDto");
                         PatientDto patientDto = (PatientDto) message.getPayload();
-                        complex.setPatient(patientDto);
-                        return complex;
+                        globalPatientDto.setPatient(patientDto);
+                        return globalPatientDto;
                     })
             )
             .handle(Http.outboundGateway("http://localhost:8082/employee/{id}")
@@ -52,10 +52,10 @@ public class IntegrationConfiguration {
             .enrich(enricherSpec ->
                 enricherSpec.headerFunction("complex",
                     message -> {
-                        Complex complex = (Complex) message.getHeaders().get("complex");
+                        GlobalPatientDto globalPatientDto = (GlobalPatientDto) message.getHeaders().get("globalPatientDto");
                         EmployeeDto employeeDto = (EmployeeDto) message.getPayload();
-                        complex.setEmployee(employeeDto);
-                        return complex;
+                        globalPatientDto.setEmployee(employeeDto);
+                        return globalPatientDto;
                     })
             )
             .handle(Http.outboundGateway("http://localhost:8083/analysis/patient/{id}")
@@ -65,10 +65,10 @@ public class IntegrationConfiguration {
             .enrich(enricherSpec ->
                 enricherSpec.headerFunction("complex",
                     message -> {
-                        Complex complex = (Complex) message.getHeaders().get("complex");
+                        GlobalPatientDto globalPatientDto = (GlobalPatientDto) message.getHeaders().get("globalPatientDto");
                         List<AnalysisDto> analysisDtos = (List<AnalysisDto>) message.getPayload();
-                        complex.setAnalysisDto(analysisDtos);
-                        return complex;
+                        globalPatientDto.setAnalysisDto(analysisDtos);
+                        return globalPatientDto;
                     })
             )
             .transform(Message.class, message -> message.getHeaders().get("complex"))
