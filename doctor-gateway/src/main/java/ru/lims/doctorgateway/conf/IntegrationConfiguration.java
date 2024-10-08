@@ -1,12 +1,16 @@
 package ru.lims.doctorgateway.conf;
 
 import java.util.List;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.integration.amqp.dsl.Amqp;
 import org.springframework.integration.dsl.IntegrationFlow;
+import org.springframework.integration.dsl.MessageChannelSpec;
+import org.springframework.integration.dsl.MessageChannels;
 import org.springframework.integration.http.dsl.Http;
 import org.springframework.messaging.Message;
 import ru.lims.doctorgateway.dto.AnalysisDto;
@@ -72,17 +76,51 @@ public class IntegrationConfiguration {
     }
 
     @Bean
-    public IntegrationFlow integrationFlow(RabbitTemplate rabbitTemplate) {
-        return IntegrationFlow.from(Http.inboundGateway("/patient__/{id}")
-                .requestMapping(m -> m.methods(HttpMethod.GET))
-                .payloadExpression("#pathVariables.id")
-                .requestPayloadType(String.class)
+    public MessageChannelSpec<?, ?> consultationUpdateChannel() {
+        return MessageChannels.queue(10);
+    }
+
+    @Bean
+    public MessageConverter jackson2JsonMessageConverter() {
+        return new Jackson2JsonMessageConverter();
+    }
+
+    @Bean
+    public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory, MessageConverter jackson2JsonMessageConverter) {
+        RabbitTemplate template = new RabbitTemplate(connectionFactory);
+        template.setMessageConverter(jackson2JsonMessageConverter);
+        return template;
+    }
+
+    @Bean
+    public IntegrationFlow saveConsultationDto(RabbitTemplate rabbitTemplate) {
+        return IntegrationFlow.from(consultationUpdateChannel())
+            .enrichHeaders(headerEnricherSpec -> headerEnricherSpec.headerExpression("consultation", "payload"))
+            .enrichHeaders(headerEnricherSpec -> headerEnricherSpec.headerExpression("analyzes", "payload.analyzes"))
+            .transform(Message.class, message -> message.getHeaders().get("consultation"))
+            .handle((p, h) -> {
+                rabbitTemplate.isConfirmListener();
+                rabbitTemplate.convertAndSend("updateConsultationDoctorGatewayToPatient", p);
+//                Amqp.outboundAdapter(rabbitTemplate)
+//                    .routingKey("updateConsultationDoctorGatewayToPatient")
+//                    .start();
+                return p;
+            })
+            .transform(Message.class, message -> message.getHeaders().get("analyzes"))
+            .handle(
+                (p, h) -> {
+                rabbitTemplate.convertAndSend("updateAnalyzesDoctorGatewayToTest", p);
+//                Amqp.outboundAdapter(rabbitTemplate)
+//                    .routingKey("updateAnalyzesDoctorGatewayToTest")
+//                    .start();
+                return p;
+                }
             )
-//            .handle(message -> {
-//                System.out.println(message.getPayload().toString());
-//            })
-            .handle(Amqp.outboundGateway(rabbitTemplate)
-                .routingKey("testQueue"))
+//            .transform(ConsultationUpdateDto.class, message -> message.getHeaders().get("complex"))
+//            .route(payload -> payload)
+//            .handle(Amqp.outboundGateway(rabbitTemplate)
+//                .routingKey("testQueue"))
+
 //            .handle(Http.outboundGateway("http://localhost:8081/patient/{id}")
 //                .httpMethod(HttpMethod.GET)
 //                .expectedResponseType(PatientDto.class)
