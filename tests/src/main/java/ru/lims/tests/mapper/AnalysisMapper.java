@@ -8,4 +8,6 @@ import ru.lims.tests.model.Analysis;
 public interface AnalysisMapper {
 
     AnalysisDto toDto(Analysis analysis);
+
+    Analysis fromDto(AnalysisDto analysisDto);
 }
