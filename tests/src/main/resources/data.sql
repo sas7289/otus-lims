@@ -12,12 +12,12 @@ VALUES ('Blood', '2024-09-01 09:00:00', '2024-09-01 12:00:00', 'Collected withou
 
 -- Наполнение таблицы analyzes
 INSERT INTO analyzes (appointment_date, test_id, biomaterial_id, performed_by_employee_id, patient_id)
-VALUES ('2024-09-05 10:00:00', 1, 1, 201, 301),
-       ('2024-09-06 11:00:00', 2, 2, 202, 302),
-       ('2024-09-07 12:00:00', 3, 3, 203, 303);
+VALUES ('2024-09-05 10:00:00', 1, 1, 201, 1),
+       ('2024-09-06 11:00:00', 2, 2, 202, 2),
+       ('2024-09-07 12:00:00', 3, 3, 203, 3);
 
 -- Наполнение таблицы test_results
 INSERT INTO test_results (performed_date, patient_id, result_value, performed_by_employee_id, comment, analysis_id)
-VALUES ('2024-09-06 14:00:00', 301, 8, 201, 'Within normal range', 1),
-       ('2024-09-07 15:00:00', 302, 85, 202, 'Slightly elevated', 2),
-       ('2024-09-08 16:00:00', 303, 3, 203, 'Normal result', 3);
+VALUES ('2024-09-06 14:00:00', 1, 8, 201, 'Within normal range', 1),
+       ('2024-09-07 15:00:00', 2, 85, 202, 'Slightly elevated', 2),
+       ('2024-09-08 16:00:00', 3, 3, 203, 'Normal result', 3);
