@@ -33,7 +33,7 @@ public class MedicalHistory {
     @Column(name = "insurance_policy_number")
     private String  insurancePolicyNumber;
 
-    @OneToMany(mappedBy = "medicalHistory")
+    @OneToMany(mappedBy = "medicalHistory", fetch = FetchType.LAZY)
     private List<Consultation> consultations;
 
 }
