@@ -75,6 +75,7 @@ public class IntegrationConfiguration {
             .get();
     }
 
+
     @Bean
     public MessageChannelSpec<?, ?> consultationUpdateChannel() {
         return MessageChannels.queue(10);
@@ -99,33 +100,16 @@ public class IntegrationConfiguration {
             .enrichHeaders(headerEnricherSpec -> headerEnricherSpec.headerExpression("analyzes", "payload.analyzes"))
             .transform(Message.class, message -> message.getHeaders().get("consultation"))
             .handle((p, h) -> {
-                rabbitTemplate.isConfirmListener();
                 rabbitTemplate.convertAndSend("updateConsultationDoctorGatewayToPatient", p);
-//                Amqp.outboundAdapter(rabbitTemplate)
-//                    .routingKey("updateConsultationDoctorGatewayToPatient")
-//                    .start();
                 return p;
             })
             .transform(Message.class, message -> message.getHeaders().get("analyzes"))
             .handle(
                 (p, h) -> {
-                rabbitTemplate.convertAndSend("updateAnalyzesDoctorGatewayToTest", p);
-//                Amqp.outboundAdapter(rabbitTemplate)
-//                    .routingKey("updateAnalyzesDoctorGatewayToTest")
-//                    .start();
-                return p;
+                    rabbitTemplate.convertAndSend("updateAnalyzesDoctorGatewayToTest", p);
+                    return p;
                 }
             )
-//            .transform(ConsultationUpdateDto.class, message -> message.getHeaders().get("complex"))
-//            .route(payload -> payload)
-//            .handle(Amqp.outboundGateway(rabbitTemplate)
-//                .routingKey("testQueue"))
-
-//            .handle(Http.outboundGateway("http://localhost:8081/patient/{id}")
-//                .httpMethod(HttpMethod.GET)
-//                .expectedResponseType(PatientDto.class)
-//                .uriVariable("id", "payload"))
             .get();
     }
-
 }
