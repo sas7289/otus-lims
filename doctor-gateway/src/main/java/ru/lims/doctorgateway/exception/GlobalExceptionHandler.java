@@ -1,4 +1,4 @@
-package ru.lims.tests.exception;
+package ru.lims.doctorgateway.exception;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> globalExceptionHandler(Exception ex) {
-        return ResponseEntity.badRequest().body(getStacktrace(ex));
+        log.error(getStacktrace(ex));
+        return ResponseEntity.badRequest().body("Error: " + ex.getMessage());
 
     }
 

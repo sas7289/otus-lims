@@ -8,6 +8,6 @@ import ru.lims.doctorgateway.dto.ConsultationUpdateDto;
 public interface ConsultationGateway {
 
     @Gateway(requestChannel = "consultationUpdateChannel")
-    public void processConsultation(ConsultationUpdateDto consultationUpdateDto);
+    void processConsultation(ConsultationUpdateDto consultationUpdateDto);
 
 }

@@ -22,8 +22,7 @@ public class ConsultationService {
         return restTemplate.postForObject(uri, null, Long.class);
     }
 
-    public long update(ConsultationUpdateDto consultationUpdateDto) {
+    public void update(ConsultationUpdateDto consultationUpdateDto) {
         consultationGateway.processConsultation(consultationUpdateDto);
-        return 0;
     }
 }
