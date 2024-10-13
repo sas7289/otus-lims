@@ -1,0 +1,9 @@
+spring:
+    application:
+        name: doctor-gateway
+server:
+    port: 8084
+
+springdoc:
+    swagger-ui:
+        path: /swagger
