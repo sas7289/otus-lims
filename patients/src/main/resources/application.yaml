@@ -22,3 +22,6 @@ server:
 rabbitmq:
   queue:
     doctor-gateway-to-patient: updateConsultationDoctorGatewayToPatient
+springdoc:
+  swagger-ui:
+    path: /swagger
