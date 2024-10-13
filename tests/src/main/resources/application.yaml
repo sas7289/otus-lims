@@ -18,3 +18,9 @@ spring:
       path: /h2-console
 server:
   port: 8083
+rabbitmq:
+  queue:
+    doctor-gateway-to-test: updateAnalyzesDoctorGatewayToTest
+springdoc:
+  swagger-ui:
+    path: /swagger
