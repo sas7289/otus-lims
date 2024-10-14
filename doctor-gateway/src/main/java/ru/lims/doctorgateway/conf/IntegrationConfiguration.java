@@ -30,7 +30,7 @@ public class IntegrationConfiguration {
                 .requestPayloadType(String.class)
             )
             .enrichHeaders(headerEnricherSpec -> headerEnricherSpec.headerExpression("patientId", "payload"))
-            .enrichHeaders(headerEnricherSpec -> headerEnricherSpec.header("complex", new GlobalPatientDto()))
+            .enrichHeaders(headerEnricherSpec -> headerEnricherSpec.header("globalPatientDto", new GlobalPatientDto()))
             .handle((payload, headers) -> new GlobalPatientDto())
             .handle(Http.outboundGateway("http://localhost:8081/patient/{id}")
                 .httpMethod(HttpMethod.GET)

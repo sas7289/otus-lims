@@ -16,12 +16,12 @@ public class AnalysisController {
     private AnalysisService analysisService;
 
 
-    @Operation(summary = "Создать новый анализ для теста с ID testId", description = "Создаёт на микросервисе, отвечающем за исследования заготовку"
-        + "для нового анализа")
+    @Operation(summary = "Создать новый анализ для теста с ID testId",
+        description = "Создаёт на микросервисе, отвечающем за исследования заготовку для нового анализа")
     @ApiResponse(responseCode = "200", description = "Анализ успешно создан")
     @PostMapping("/analysis")
-    public ResponseEntity<Long> create(@RequestParam("testId") Long testId) {
-        Long analysisId = analysisService.create(testId);
+    public ResponseEntity<Long> create(@RequestParam("testId") Long testId, @RequestParam("patientId") Long patientId) {
+        Long analysisId = analysisService.create(testId, patientId);
         return ResponseEntity.ok(analysisId);
     }
 }

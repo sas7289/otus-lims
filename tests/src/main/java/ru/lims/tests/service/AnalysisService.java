@@ -29,11 +29,12 @@ public class AnalysisService {
             .toList();
     }
 
-    public Long create(Long testId) {
+    public Long create(Long testId, Long patientId) {
         Test test = testRepository.findById(testId)
             .orElseThrow(() -> new ObjectNotFoundException("Test not found by ID: " + testId));
         Analysis analysis = new Analysis();
         analysis.setTest(test);
+        analysis.setPatientId(patientId);
         Analysis savedAnalysis = analysisRepository.save(analysis);
         return savedAnalysis.getId();
     }

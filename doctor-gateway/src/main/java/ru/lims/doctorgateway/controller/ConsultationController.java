@@ -19,7 +19,7 @@ public class ConsultationController {
     @Autowired
     private ConsultationService consultationService;
 
-    @Operation(summary = "Создать новый анализ для медицинской истории с ID medicalHistoryId",
+    @Operation(summary = "Создать новую консультацию для медицинской истории с ID medicalHistoryId",
         description = "Создаёт заготовку для новой консультации")
     @ApiResponse(responseCode = "200", description = "Консультация успешно создана")
     @PostMapping("/consultation")
